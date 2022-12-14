@@ -38,19 +38,7 @@
   }
 }
 
-.modal {
-  font-size: 12px;
-}
-
-.modal>.header {
-  width: 100%;
-  border-bottom: 1px solid gray;
-  font-size: 18px;
-  text-align: center;
-  padding: 5px;
-}
-
-.modal>.close {
+.close-photo {
   cursor: pointer;
   position: absolute;
   display: block;

@@ -1,8 +1,13 @@
-export default function Image({ url, title }) {
+import React from "react";
+
+export function Image(props) {
+    const {title, url} = props;
+
     return (
         <>
-            <div className="header">{title}</div>
+            <h2>{title}</h2>
             <img src={url} alt={title}/>
         </>
     )
-};
+}
+

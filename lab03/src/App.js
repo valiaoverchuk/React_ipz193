@@ -1,37 +1,39 @@
 import './App.css';
 import {List} from 'react-virtualized';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Popup from 'reactjs-popup';
-import Image from './Image';
+import {Image} from './Image';
 
 function App() {
     const [list, setList] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const maxWordsCount = 7;
-
     useEffect(() => {
         fetch(
             "https://jsonplaceholder.typicode.com/photos")
-            .then((res) => res.json())
-            .then((json) => {
-                setList(json.filter(item => item.title.split(' ').length <= maxWordsCount));
+            .then((response) => response.json())
+            .then((list) => {
+                setList(list.filter(item => item.title.split(' ').length <= 7));
                 setIsLoaded(true);
             });
     }, []);
 
-    function renderRow({index, key, style}) {
+    function rowRenderer(props) {
+        const {index, key} = props;
+
         return (
-            <div key={key} style={style}>
-                <p>id: {list[index].id}<br/>
-                    albumId: {list[index].albumId}<br/>
-                    title: {list[index].title}
-                </p>
-                <Popup trigger={<button className="button">Open</button>} modal nested>
+            <div key={key}>
+                <div>
+                    <p>id: {list[index].id}<br/>
+                        albumId: {list[index].albumId}<br/>
+                        title: {list[index].title}
+                    </p>
+                </div>
+                <Popup trigger={<button>Open</button>} modal nested>
                     {close => (
-                        <div className="modal">
-                            <button className="close" onClick={close}> &times;</button>
+                        <div>
                             <Image title={list[index].title} url={list[index].thumbnailUrl}/>
+                            <button className="close-photo" onClick={close}> &times;</button>
                         </div>)}
                 </Popup>
             </div>
@@ -45,7 +47,7 @@ function App() {
                     width={1500}
                     height={900}
                     rowHeight={120}
-                    rowRenderer={renderRow}
+                    rowRenderer={rowRenderer}
                     rowCount={list.length}/>
             </>
         )
